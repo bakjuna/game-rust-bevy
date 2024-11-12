@@ -16,6 +16,6 @@ fn main() {
         .add_systems(Update, jump)
         .add_systems(Update, camera)
         .add_systems(Update, toggle_cursor)
-        .insert_resource(CursorLocked(true)) // 기본적으로 커서를 고정
+        .insert_resource(CursorLocked(true)) 
         .run();
 }
