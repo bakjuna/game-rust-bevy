@@ -36,7 +36,7 @@ pub fn camera(
     let player_transform = player_query.single();
     let focal_point = player_transform.translation + Vec3::new(0.0, 1.1, 0.0);
 
-    let distance = 2.0; // Distance between camera and focus
+    let distance = 4.0; // Distance between camera and focus
 
     // Calculate camera position using spherical coordinates
     let x = focal_point.x + distance * camera.yaw.cos() * camera.pitch.cos();

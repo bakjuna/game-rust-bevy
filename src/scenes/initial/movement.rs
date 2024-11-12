@@ -5,18 +5,30 @@ use crate::components::player::{Player, PlayerCamera, RotationInterpolation};
 pub fn movement(
     keys: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
-    mut player_query: Query<(&mut Transform, &mut RotationInterpolation), (With<Player>, Without<PlayerCamera>)>,
+    mut player_query: Query<
+        (&mut Transform, &mut RotationInterpolation),
+        (With<Player>, Without<PlayerCamera>),
+    >,
     camera_query: Query<&Transform, With<PlayerCamera>>,
 ) {
     let (mut player_transform, mut rotation_interpolation) = player_query.single_mut();
     let camera_transform = camera_query.single();
 
     let mut direction = Vec3::ZERO;
-    let speed = 7.0;
+    let speed = if keys.pressed(KeyCode::ShiftLeft) {
+        12.0
+    } else {
+        7.0
+    };
     let angular_speed = 5.0; // Rotation speed (rad/s)
 
     // Get forward and right vectors from the camera (Y-axis set to 0)
-    let forward = Vec3::new(camera_transform.forward().x, 0.0, camera_transform.forward().z).normalize();
+    let forward = Vec3::new(
+        camera_transform.forward().x,
+        0.0,
+        camera_transform.forward().z,
+    )
+    .normalize();
     let right = Vec3::new(camera_transform.right().x, 0.0, camera_transform.right().z).normalize();
 
     // Calculate movement direction
@@ -43,7 +55,9 @@ pub fn movement(
         let target_rotation = Quat::from_rotation_y(-target_yaw);
 
         // Start rotation if not already rotating
-        if !rotation_interpolation.is_rotating || rotation_interpolation.target_rotation != target_rotation {
+        if !rotation_interpolation.is_rotating
+            || rotation_interpolation.target_rotation != target_rotation
+        {
             rotation_interpolation.target_rotation = target_rotation;
             rotation_interpolation.is_rotating = true;
         }

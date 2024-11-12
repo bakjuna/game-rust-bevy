@@ -100,7 +100,7 @@ pub fn setup(
 
     commands.spawn((
         Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 1.1, -2.0),
+            transform: Transform::from_xyz(0.0, 1.1, -4.0),
             ..default()
         },
         PlayerCamera {
